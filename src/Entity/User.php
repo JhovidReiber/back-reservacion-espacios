@@ -8,10 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface; 
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -79,10 +82,10 @@ class User
         return $this->password;
     }
 
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
 
+    public function setPassword(string $password, UserPasswordHasherInterface $passwordHasher): static
+    {
+        $this->password = $passwordHasher->hashPassword($this, $password);
         return $this;
     }
 
@@ -103,7 +106,7 @@ class User
         return $this->state;
     }
 
-    public function setState(bool $state): static
+    public function setState(bool $state = true): static
     {
         $this->state = $state;
 
