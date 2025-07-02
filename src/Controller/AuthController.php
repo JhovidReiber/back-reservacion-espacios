@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Constraints\Json;
 
 class AuthController extends AbstractController
 {
@@ -42,7 +43,7 @@ class AuthController extends AbstractController
         $user->setPassword($data->password, $this->passwordHasher); // Usamos $this->passwordHasher, para codificar la contraseña
         $user->setState(true);
         //Buscamos el rol que vamos a asignar
-        $role = $this->entityManager->getRepository(Role::class)->findOneBy(['id' => $data->role_id]);
+        $role = $this->entityManager->getRepository(Role::class)->findOneBy(['name' => $data->role]);
         $user->setRole($role);
 
         $this->entityManager->persist($user);
@@ -62,5 +63,13 @@ class AuthController extends AbstractController
         $token = $this->jwtManager->create($user); // Generamos el token
 
         return new JsonResponse(['token' => $token]);
+    }
+
+    #[Route('/api/check-username', name: 'api_check_username', methods: ['POST'])]
+    public function checkUserNameExists(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent());
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $data->username]);
+        return new JsonResponse(['exists' => $user !== null]);
     }
 }
