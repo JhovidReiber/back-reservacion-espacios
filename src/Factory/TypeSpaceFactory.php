@@ -32,8 +32,8 @@ final class TypeSpaceFactory extends PersistentProxyObjectFactory
     protected function defaults(): array|callable
     {
         return [
-            'description' => self::faker()->text(255),
-            'name' => self::faker()->text(255),
+            'description' => self::faker()->sentence(10),
+            'name' => self::faker()->words(3, true),
         ];
     }
 

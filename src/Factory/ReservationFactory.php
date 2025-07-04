@@ -36,7 +36,7 @@ final class ReservationFactory extends PersistentProxyObjectFactory
             'date_start' => self::faker()->dateTime(),
             'name_event' => self::faker()->text(255),
             'space' => SpaceFactory::new(),
-            'users' => UserFactory::new(),
+            'user' => UserFactory::new(),
         ];
     }
 

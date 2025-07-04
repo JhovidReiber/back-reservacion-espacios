@@ -3,6 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 use App\Repository\SpaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +16,18 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SpaceRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+        new Post(),
+        new Patch(),
+        new Put(),
+        new Delete()
+    ],
+    paginationEnabled: true,
+    paginationItemsPerPage: 10,
+)]
 class Space
 {
     #[ORM\Id]
@@ -27,12 +44,15 @@ class Space
     #[ORM\Column]
     private ?int $capacity = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $photos = null;
-
     #[ORM\ManyToOne(inversedBy: 'spaces')]
     #[ORM\JoinColumn(nullable: false)]
     private ?TypeSpace $typeSpace = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $photos = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $schedules = null;
 
     /**
      * @var Collection<int, Reservation>
@@ -86,6 +106,18 @@ class Space
         return $this;
     }
 
+    public function getTypeSpace(): ?TypeSpace
+    {
+        return $this->typeSpace;
+    }
+
+    public function setTypeSpace(?TypeSpace $typeSpace): static
+    {
+        $this->typeSpace = $typeSpace;
+
+        return $this;
+    }
+
     public function getPhotos(): ?string
     {
         return $this->photos;
@@ -98,14 +130,14 @@ class Space
         return $this;
     }
 
-    public function getTypeSpace(): ?TypeSpace
+    public function getSchedules(): ?string
     {
-        return $this->typeSpace;
+        return $this->schedules;
     }
 
-    public function setTypeSpace(?TypeSpace $typeSpace): static
+    public function setSchedules(string $schedules): static
     {
-        $this->typeSpace = $typeSpace;
+        $this->schedules = $schedules;
 
         return $this;
     }

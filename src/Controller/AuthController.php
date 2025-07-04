@@ -60,7 +60,16 @@ class AuthController extends AbstractController
 
         if (!$user || !$this->passwordHasher->isPasswordValid($user, $data->password)) return new JsonResponse(['message' => 'Credenciales Invalidas'], JsonResponse::HTTP_UNAUTHORIZED);
 
-        $token = $this->jwtManager->create($user); // Generamos el token
+         // Creamos el payload personalizado
+        $payload = [
+            'username' => $user->getUsername(),
+            'roles' => $user->getRoles(),
+            'name' => $user->getName(),
+            'iat' => time(),
+            'exp' => time() + 3600,
+        ];
+
+        $token = $this->jwtManager->createFromPayload($user, $payload);
 
         return new JsonResponse(['token' => $token]);
     }
