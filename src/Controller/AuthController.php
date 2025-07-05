@@ -65,6 +65,7 @@ class AuthController extends AbstractController
             'username' => $user->getUsername(),
             'roles' => $user->getRoles(),
             'name' => $user->getName(),
+            'id' => $user->getId(),
             'iat' => time(),
             'exp' => time() + 3600,
         ];

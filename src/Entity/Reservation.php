@@ -17,7 +17,9 @@ use Doctrine\ORM\Mapping as ORM;
     operations: [
         new Get(),
         new GetCollection(),
-        new Post(),
+        new Post(
+            controller: 'App\Controller\ReservationController::createReservation'
+        ),
         new Patch(),
         new Put(),
         new Delete()
