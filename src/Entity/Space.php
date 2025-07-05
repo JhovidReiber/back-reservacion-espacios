@@ -25,8 +25,6 @@ use Doctrine\ORM\Mapping as ORM;
         new Put(),
         new Delete()
     ],
-    paginationEnabled: true,
-    paginationItemsPerPage: 10,
 )]
 class Space
 {

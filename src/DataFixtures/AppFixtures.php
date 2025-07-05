@@ -104,7 +104,7 @@ class AppFixtures extends Fixture
         $schedules = [];
 
         for ($i = 0; $i < $cantidad; $i++) {
-            // Fecha aleatoria entre hoy y 10 días después
+
             $timestamp = strtotime('+' . rand(0, 10) . ' days');
             $date = date(DATE_ATOM, $timestamp); // Formato ISO 8601
 
@@ -112,7 +112,6 @@ class AppFixtures extends Fixture
             $startHour = str_pad((string) rand(6, 20), 2, '0', STR_PAD_LEFT);
             $startMin = str_pad((string) rand(0, 59), 2, '0', STR_PAD_LEFT);
 
-            // Hora de fin aleatoria (posterior a la de inicio)
             $endHour = str_pad((string) rand((int)$startHour + 1, 22), 2, '0', STR_PAD_LEFT);
             $endMin = str_pad((string) rand(0, 59), 2, '0', STR_PAD_LEFT);
 
@@ -120,6 +119,7 @@ class AppFixtures extends Fixture
                 'date' => $date,
                 'startTime' => "$startHour:$startMin",
                 'endTime' => "$endHour:$endMin",
+                'available' => false
             ];
         }
         return json_encode($schedules);
