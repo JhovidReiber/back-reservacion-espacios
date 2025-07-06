@@ -22,7 +22,9 @@ use Doctrine\ORM\Mapping as ORM;
         ),
         new Patch(),
         new Put(),
-        new Delete()
+        new Delete(
+            controller: 'App\Controller\ReservationController::deleteReservation'
+        )
     ]
 )]
 class Reservation

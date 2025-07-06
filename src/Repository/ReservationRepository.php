@@ -16,6 +16,15 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
+     public function findByUserId(int $userId)
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();    
+    }
+
     //    /**
     //     * @return Reservation[] Returns an array of Reservation objects
     //     */
