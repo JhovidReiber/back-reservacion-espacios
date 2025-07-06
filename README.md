@@ -22,7 +22,7 @@ Incluye autenticación JWT, validación de conflictos de horario y gestión de u
 
    ```bash
    git clone hhttps://github.com/JhovidReiber/back-reservacion-espacios.git
-   cd reserva-espacios-backend
+   cd back-reservacion-espacios
    ```
 
 2. Instala las dependencias:
